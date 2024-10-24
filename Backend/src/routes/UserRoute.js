@@ -4,6 +4,16 @@ const userController = require("../controller/User");
 
 /**
  * @swagger
+ * /api/example:
+ *   get:
+ *     summary: Get an example
+ *     responses:
+ *       200:
+ *         description: A successful response
+ */
+
+/**
+ * @swagger
  * /create:
  *   post:
  *     summary: Create a new user
@@ -97,6 +107,7 @@ const userController = require("../controller/User");
 
 router.post("/create", userController.createUser); // Create user
 router.get("/:id", userController.getUser); // Get user by ID
+router.post("/login", userController.loginUser);
 // router.put('/:id', userController.updateUser);       // Update user by ID
 // router.delete('/:id', userController.deleteUser);    // Delete user by ID
 

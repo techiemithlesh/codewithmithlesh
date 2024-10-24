@@ -1,9 +1,13 @@
 const UserServices = require("../services/User");
+const jwt = require("jsonwebtoken");
 
 exports.createUser = async (req, res) => {
   try {
     const user = await UserServices.createUser(req.body);
-    res.status(201).json(user);
+    res.status(201).json({
+      message: "User Created Successfully !",
+      user,
+    });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       return res.status(400).json({
@@ -31,5 +35,29 @@ exports.getUser = async (req, res) => {
   } catch (error) {
     console.error("Error retrieving user:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.loginUser = async (req, res) => {
+  try {
+    const { token, status, error } = await UserServices.loginUser(req.body);
+
+    if (status !== 200) {
+      return res.status(status).json({
+        message: error || "Login failed",
+        status,
+      });
+    }
+
+    return res.status(200).json({
+      status,
+      message: "User Login Successfully !",
+      token,
+    });
+  } catch (error) {
+    return res.json({
+      message: error,
+      status: 404,
+    });
   }
 };
