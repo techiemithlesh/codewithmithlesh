@@ -8,5 +8,6 @@ const multer = require("multer");
 const upload = multer({ dest: "tmp/" });
 
 router.post("/create", upload.single("notes_img"), notesController.createNote);
+router.get("/list", notesController.getNotesAll);
 
 module.exports = router;

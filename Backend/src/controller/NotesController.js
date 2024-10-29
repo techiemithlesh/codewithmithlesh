@@ -43,3 +43,21 @@ exports.createNote = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+// NOTES LIST
+exports.getNotesAll = async (req, res) => {
+  try {
+    const all = await notesServices.getAllNotes();
+    // console.log("List", list);
+    return res.status(200).json({
+      status: true,
+      message: "All Notes List",
+      notes: all,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      error: error,
+    });
+  }
+};

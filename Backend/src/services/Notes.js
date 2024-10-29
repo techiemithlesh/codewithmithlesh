@@ -9,3 +9,12 @@ exports.createNote = async (noteData) => {
     throw error;
   }
 };
+
+exports.getAllNotes = async (req, res) => {
+  try {
+    const notes = await Notes.findAll();
+    return notes;
+  } catch (error) {
+    throw error;
+  }
+};
