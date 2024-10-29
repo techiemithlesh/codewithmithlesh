@@ -44,6 +44,17 @@ const User = sequelize.define(
         },
       },
     },
+    user_type: {
+      type: DataTypes.ENUM("user", "admin", "editor"),
+      defaultValue: "user",
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [["user", "editor", "admin"]],
+          msg: "User Type must be in 'user' or 'editor' and 'admin",
+        },
+      },
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -65,21 +76,20 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    created_At: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    updated_At: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
   },
   {
     tableName: "users",
     timestamps: true,
-    createdAt: "created_At",
-    updatedAt: "updated_At",
   }
 );
+
+User.associate = (models) => {
+  User.hasMany(models.Notes, {
+    foreignKey: "user_id",
+    as: "notes",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
+};
 
 module.exports = User;

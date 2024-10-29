@@ -5,6 +5,7 @@ const sequelize = require("./src/db/dbconfig");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocs = require("./swagger");
 const userRoutes = require("./src/routes/UserRoute");
+const notesRoutes = require("./src/routes/NotesRoute");
 
 const app = express();
 
@@ -15,22 +16,22 @@ app.get("/", (req, res) => {
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
-if (process.env.NODE_ENV === "development") {
-  sequelize
-    .sync({ alter: true })
-    .then(() => {
-      console.log("Database synced successfully!");
-    })
-    .catch((err) => {
-      console.log("Error syncing database:", err);
-    });
-}
+sequelize
+  .sync({ alter: true })
+  .then(() => {
+    console.log("Database & tables created!");
+  })
+  .catch((error) => {
+    console.log("Error", error);
+  });
 
 // Serve Swagger API documentation
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // USER ROUTES
 app.use("/api/v1/users", userRoutes);
+// NOTES
+app.use("/api/v1/notes", notesRoutes);
 
 const PORT =
   process.env.STATUS === "development"
