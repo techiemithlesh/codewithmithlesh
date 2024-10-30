@@ -31,7 +31,7 @@ const User = sequelize.define(
       },
     },
     mobile_no: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: true,
       unique: true,
       validate: {
@@ -76,6 +76,10 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 1,
+    },
   },
   {
     tableName: "users",
@@ -87,6 +91,15 @@ User.associate = (models) => {
   User.hasMany(models.Notes, {
     foreignKey: "user_id",
     as: "notes",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
+};
+
+User.associate = (model) => {
+  User.hasMany(model.Blog, {
+    foreignKey: "user_id",
+    as: "blogs",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   });
