@@ -12,12 +12,12 @@ const Navbar = () => {
             {/* Logo */}
             <div className="flex items-left">
               <Link to="/" className="text-white text-xl font-bold">
-                CodeWithMithlesh
+                CODEWITHMITHLESH
               </Link>
             </div>
 
             {/* Nav Links for Desktop */}
-            <div className="hidden md:flex space-x-4">
+            <div className="hidden md:flex space-x-4 items-center">
               <Link to="/blogs" className="text-gray-300 hover:text-white">
                 Blogs
               </Link>
@@ -27,11 +27,16 @@ const Navbar = () => {
               <Link to="/notes" className="text-gray-300 hover:text-white">
                 Notes
               </Link>
-              <Link to="/about" className="text-gray-300 hover:text-white">
-                About
-              </Link>
               <Link to="/contact" className="text-gray-300 hover:text-white">
                 Contact
+              </Link>
+
+              {/* Hire Me Button for Desktop */}
+              <Link
+                to="/hire-me"
+                className="ml-4 px-4 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500"
+              >
+                Hire Me
               </Link>
             </div>
 
@@ -87,17 +92,20 @@ const Navbar = () => {
               >
                 Notes
               </Link>
-              <Link
-                to="/about"
-                className="block text-gray-300 hover:text-white"
-              >
-                About
-              </Link>
+
               <Link
                 to="/contact"
                 className="block text-gray-300 hover:text-white"
               >
                 Contact
+              </Link>
+
+              {/* Hire Me Button for Mobile */}
+              <Link
+                to="/hire-me"
+                className="block mt-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500 text-center"
+              >
+                Hire Me
               </Link>
             </div>
           </div>
