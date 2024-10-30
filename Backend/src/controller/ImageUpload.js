@@ -22,9 +22,9 @@ const storage = multer.diskStorage({
 });
 
 // Multer middleware for handling single image upload
-const upload = multer({ storage }).single("image");
+const upload = multer({ storage }).array[("image", "pdf")];
 
-const uploadImage = async (req, folderName) => {
+const uploadImage = async (file, folderName) => {
   try {
     const destinationPath = path.join(__dirname, "./public/upload", folderName);
 
@@ -34,19 +34,21 @@ const uploadImage = async (req, folderName) => {
     }
 
     // Check if file is available in the request
-    if (!req.file) {
+    if (!file) {
       throw new Error("No file provided in the request");
     }
 
-    // Set the target file path
-    const targetPath = path.join(destinationPath, req.file.originalname);
+    // Generate a unique filename
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const targetFileName = uniqueSuffix + path.extname(file.originalname);
+    const targetPath = path.join(destinationPath, targetFileName);
 
     // Move file to target path
-    fs.renameSync(req.file.path, targetPath);
+    fs.renameSync(file.path, targetPath);
 
     // Return the relative path to be saved in the database
-    console.log("path", `/upload/${folderName}/${req.file.originalname}`);
-    return `/upload/${folderName}/${req.file.originalname}`;
+    console.log("path", `/upload/${folderName}/${targetFileName}`);
+    return `/upload/${folderName}/${targetFileName}`;
   } catch (error) {
     console.error("Error uploading image:", error.message);
     throw new Error("Image upload failed");

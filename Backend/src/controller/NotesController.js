@@ -6,16 +6,25 @@ exports.createNote = async (req, res) => {
     let noteData = req.body;
 
     let imagePath = null;
+    let filePath = null;
 
-    if (req.file) {
+    if (req.files && req.files.notes_img && req.files.notes_img[0]) {
       const folderName = "notes";
-
-      imagePath = await uploadImage(req, folderName);
+      imagePath = await uploadImage(req.files.notes_img[0], folderName);
     }
+
+    // Check if `notes_file` file exists in `req.files`
+    if (req.files && req.files.notes_file && req.files.notes_file[0]) {
+      const folderName = "notes/pdf";
+      filePath = await uploadImage(req.files.notes_file[0], folderName);
+    }
+
+    // return res.status(201).json({ note: noteData });
 
     const notes = {
       ...noteData,
       notes_img: imagePath,
+      notes_file: filePath,
     };
 
     const note = await notesServices.createNote(notes);

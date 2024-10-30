@@ -45,6 +45,10 @@ const Notes = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    notes_file: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     isPremium: {
       type: DataTypes.BOOLEAN,
       defaultValue: 0,
