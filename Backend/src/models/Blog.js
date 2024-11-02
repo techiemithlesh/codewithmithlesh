@@ -71,7 +71,7 @@ const Blog = sequelize.define(
 
 Blog.beforeValidate((blog) => {
   if (blog.title) {
-    blog.slug = note.tittle.toLowerCase().replace(/ /g, "-");
+    blog.slug = blog.tittle.toLowerCase().replace(/ /g, "-");
   }
 });
 

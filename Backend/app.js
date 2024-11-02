@@ -2,10 +2,10 @@ const express = require("express");
 require("dotenv").config();
 const db = require("./src/db/dbconfig");
 const sequelize = require("./src/db/dbconfig");
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocs = require("./swagger");
+
 const userRoutes = require("./src/routes/UserRoute");
 const notesRoutes = require("./src/routes/NotesRoute");
+const { swaggerUi, swaggerSpec } = require("./swagger");
 
 const app = express();
 
@@ -26,7 +26,7 @@ sequelize
   });
 
 // Serve Swagger API documentation
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // USER ROUTES
 app.use("/api/v1/users", userRoutes);

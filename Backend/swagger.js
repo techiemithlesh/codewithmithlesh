@@ -1,34 +1,26 @@
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-const express = require("express");
-const app = express();
+
+// Basic Swagger definition
+const swaggerDefinition = {
+  openapi: "3.0.0",
+  info: {
+    title: "LMS API Documentation",
+    version: "1.0.0",
+    description: "API documentation for the LMS project",
+  },
+  servers: [
+    {
+      url: "http://localhost:5000",
+    },
+  ],
+};
 
 const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "TWILLA",
-      version: "1.0.0",
-      description: "TWILL API FOR GOOGLE ON DEMAND SERVICE",
-    },
-    servers: [
-      {
-        url: "http://localhost:5000/",
-        description: "Local server",
-      },
-    ],
-  },
-
-  apis: ["./src/routes/*.js"],
+  swaggerDefinition,
+  apis: ["./src/routes/*"],
 };
+
 const swaggerSpec = swaggerJsDoc(options);
-function swaggerDocs(app, port) {
-  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-  app.get("/docs.json", (req, res) => {
-    res.setHeader("Content-Type", "application/json");
-    res.send(swaggerSpec);
-  });
-}
-
-module.exports = swaggerDocs;
+module.exports = { swaggerUi, swaggerSpec };

@@ -4,20 +4,17 @@ const userController = require("../controller/User");
 
 /**
  * @swagger
- * /api/example:
- *   get:
- *     summary: Get an example
- *     responses:
- *       200:
- *         description: A successful response
+ * tags:
+ *   name: Auth
+ *   description: Authentication operations
  */
 
 /**
  * @swagger
- * /create:
+ * /auth/register:
  *   post:
- *     summary: Create a new user
- *     tags: [Users]
+ *     tags: [Auth]
+ *     summary: Register in a user
  *     requestBody:
  *       required: true
  *       content:
@@ -25,24 +22,67 @@ const userController = require("../controller/User");
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               firstName:
  *                 type: string
+ *                 example: suraj
+ *               lastName:
+ *                 type: string
+ *                 example: kumar
  *               email:
  *                 type: string
- *               mobile_no:
+ *                 example: suraj@gmail.com
+ *               mobile:
  *                 type: string
+ *                 example: 8271932791
  *               password:
  *                 type: string
+ *                 example: 8988
+ *               dob:
+ *                 type: string
+ *                 example: "1999-12-10"
  *               address:
  *                 type: string
- *               profile_img:
+ *                 example: kanke road ranchi
+ *               username:
  *                 type: string
+ *                 example: suraj
+ *
  *     responses:
  *       201:
- *         description: User created successfully
- *       400:
- *         description: Validation error
+ *         description: User register successfully
+ *       409:
+ *         description: User already register
+ *       500:
+ *         description: Registration failed. Please try again
  */
+
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Log in a user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: suraj@gmail.com
+ *               password:
+ *                 type: string
+ *                 example: 8988
+ *     responses:
+ *       200:
+ *         description: User logged in successfully
+ *       401:
+ *         description: Invalid credentials
+ */
+
+router.post("/create", userController.createUser); // Create user
 
 /**
  * @swagger
@@ -105,7 +145,6 @@ const userController = require("../controller/User");
  *         description: User not found
  */
 
-router.post("/create", userController.createUser); // Create user
 router.get("/:id", userController.getUser); // Get user by ID
 router.post("/login", userController.loginUser);
 // router.put('/:id', userController.updateUser);       // Update user by ID
