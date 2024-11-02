@@ -94,10 +94,8 @@ User.associate = (models) => {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   });
-};
 
-User.associate = (model) => {
-  User.hasMany(model.Blog, {
+  User.hasMany(models.Blog, {
     foreignKey: "user_id",
     as: "blogs",
     onDelete: "CASCADE",

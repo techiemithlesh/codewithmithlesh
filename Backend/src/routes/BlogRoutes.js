@@ -82,4 +82,81 @@ router.post(
   blogController.postBlog
 );
 
+/**
+ * @swagger
+ * /api/v1/blog/list:
+ *   get:
+ *     tags:
+ *       - Blogs
+ *     summary: Retrieve a list of blog posts
+ *     description: This endpoint retrieves a list of blog posts with optional pagination.
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         required: false
+ *         description: The page number for pagination (defaults to 1).
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           example: 12
+ *         required: false
+ *         description: The number of items per page for pagination (defaults to 12).
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *           example: "Bearer <your_token>"
+ *         required: true
+ *         description: Bearer token for authentication.
+ *     responses:
+ *       200:
+ *         description: A list of blog posts.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Blog list fetched successfully!"
+ *                 blog:
+ *                   type: object
+ *                   properties:
+ *                     count:
+ *                       type: integer
+ *                       example: 100
+ *                     rows:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 1
+ *                           title:
+ *                             type: string
+ *                             example: "My First Blog Post"
+ *                           description:
+ *                             type: string
+ *                             example: "This is a description of my first blog post."
+ *                           thumbnail:
+ *                             type: string
+ *                             example: "/upload/blogs/thumbnail1.jpg"
+ *                           banner_img:
+ *                             type: string
+ *                             example: "/upload/blogs/banner1.jpg"
+ *       400:
+ *         description: Bad request - validation errors.
+ *       401:
+ *         description: Unauthorized - missing or invalid token.
+ *       500:
+ *         description: Internal server error.
+ */
+router.get("/list", auth, blogController.list);
+router.get("/:id", auth, blogController.getBlogById);
+
 module.exports = router;

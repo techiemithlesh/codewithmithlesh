@@ -70,8 +70,8 @@ Blog.beforeValidate((blog) => {
   }
 });
 
-Blog.associate = (model) => {
-  Notes.belongsTo(model.User, {
+Blog.associate = (models) => {
+  Blog.belongsTo(models.User, {
     foreignKey: "user_id",
     as: "user",
   });
