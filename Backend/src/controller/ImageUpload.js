@@ -6,7 +6,7 @@ const path = require("path");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const { folderName } = req.params;
-    const uploadPath = path.join(__dirname, "./public/upload", folderName);
+    const uploadPath = path.join(__dirname, "../public/upload", folderName);
 
     // Create folder if it doesn't exist
     if (!fs.existsSync(uploadPath)) {
@@ -26,7 +26,11 @@ const upload = multer({ storage }).array[("image", "pdf")];
 
 const uploadImage = async (file, folderName) => {
   try {
-    const destinationPath = path.join(__dirname, "./public/upload", folderName);
+    const destinationPath = path.join(
+      __dirname,
+      "../public/upload",
+      folderName
+    );
 
     // Ensure destination directory exists
     if (!fs.existsSync(destinationPath)) {
@@ -47,7 +51,7 @@ const uploadImage = async (file, folderName) => {
     fs.renameSync(file.path, targetPath);
 
     // Return the relative path to be saved in the database
-    console.log("path", `/upload/${folderName}/${targetFileName}`);
+    // console.log("path", `/upload/${folderName}/${targetFileName}`);
     return `/upload/${folderName}/${targetFileName}`;
   } catch (error) {
     console.error("Error uploading image:", error.message);

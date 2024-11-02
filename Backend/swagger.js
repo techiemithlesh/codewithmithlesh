@@ -5,9 +5,9 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerDefinition = {
   openapi: "3.0.0",
   info: {
-    title: "LMS API Documentation",
+    title: "CODEWITHMITHLESH API Documentation",
     version: "1.0.0",
-    description: "API documentation for the LMS project",
+    description: "API documentation for the codewithmithlesh",
   },
   servers: [
     {

@@ -2,7 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const SECRET_KEY = process.env.JWT_SECRET || "xyzabc1234";
+const SECRET_KEY = process.env.SECRET_KEY;
 
 exports.createUser = async (userData) => {
   try {

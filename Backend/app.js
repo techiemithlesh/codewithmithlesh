@@ -5,6 +5,7 @@ const sequelize = require("./src/db/dbconfig");
 
 const userRoutes = require("./src/routes/UserRoute");
 const notesRoutes = require("./src/routes/NotesRoute");
+const blogRoutes = require("./src/routes/BlogRoutes");
 const { swaggerUi, swaggerSpec } = require("./swagger");
 
 const app = express();
@@ -22,7 +23,8 @@ sequelize
     console.log("Database & tables created!");
   })
   .catch((error) => {
-    console.log("Error", error);
+    console.error("Error syncing database:", error.message);
+    console.error("Detailed error:", error);
   });
 
 // Serve Swagger API documentation
@@ -32,6 +34,9 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/v1/users", userRoutes);
 // NOTES
 app.use("/api/v1/notes", notesRoutes);
+
+// BLOGS
+app.use("/api/v1/blog", blogRoutes);
 
 const PORT =
   process.env.STATUS === "development"

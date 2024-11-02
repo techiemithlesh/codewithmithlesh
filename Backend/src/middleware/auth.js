@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.SECRET_KEY;
 
-const authenticate = (req, res, next) => {
-  const token = req.header("Authorization").split(" ")[1];
+const auth = (req, res, next) => {
+  const token = req.header("Authorization")?.split(" ")[1];
 
   if (!token) {
     return res
@@ -15,8 +15,9 @@ const authenticate = (req, res, next) => {
     req.user = verified;
     next();
   } catch (error) {
-    res.status(400).json({ message: "Invalid token." });
+    console.error("Token verification failed:", error.message);
+    return res.status(400).json({ message: "Invalid token." });
   }
 };
 
-module.exports = authenticate;
+module.exports = auth;

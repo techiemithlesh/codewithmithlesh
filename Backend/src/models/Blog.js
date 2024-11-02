@@ -26,18 +26,13 @@ const Blog = sequelize.define(
       unique: {
         msg: "Title Should be unique !",
       },
-      validate: {
-        isNull: {
-          msg: "Title can not be Null",
-        },
-      },
     },
     slug: {
       type: DataTypes.TEXT,
       allowNull: true,
       unique: true,
     },
-    desciption: {
+    description: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
@@ -71,15 +66,15 @@ const Blog = sequelize.define(
 
 Blog.beforeValidate((blog) => {
   if (blog.title) {
-    blog.slug = blog.tittle.toLowerCase().replace(/ /g, "-");
+    blog.slug = blog.title.toLowerCase().replace(/ /g, "-");
   }
 });
 
-Blog.associate((model) => {
-  Blog.belongsTo(model.User, {
+Blog.associate = (model) => {
+  Notes.belongsTo(model.User, {
     foreignKey: "user_id",
     as: "user",
   });
-});
+};
 
 module.exports = Blog;

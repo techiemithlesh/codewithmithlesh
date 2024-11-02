@@ -3,7 +3,7 @@ const sequelize = require("../db/dbconfig");
 const User = require("./User");
 
 const Notes = sequelize.define(
-  "tbl_notes",
+  "Notes",
   {
     id: {
       type: DataTypes.INTEGER,

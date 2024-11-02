@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../controller/User");
+const userController = require("../controller/UserController");
+const auth = require("../middleware/auth");
+
+const multer = require("multer");
+const upload = multer({ dest: "tmp" });
 
 /**
  * @swagger
@@ -11,54 +15,69 @@ const userController = require("../controller/User");
 
 /**
  * @swagger
- * /auth/register:
+ * /api/v1/users/create:
  *   post:
  *     tags: [Auth]
- *     summary: Register in a user
+ *     summary: Register a new user
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
- *               firstName:
+ *               name:
  *                 type: string
- *                 example: suraj
- *               lastName:
- *                 type: string
- *                 example: kumar
+ *                 example: "Mithlesh"
+ *                 description: The user's name
  *               email:
  *                 type: string
- *                 example: suraj@gmail.com
- *               mobile:
+ *                 example: "techie.mithlesh@gmail.com"
+ *                 description: The user's email address
+ *               mobile_no:
  *                 type: string
- *                 example: 8271932791
+ *                 example: "7667043372"
+ *                 description: The user's mobile number
+ *               user_type:
+ *                 type: string
+ *                 enum: [user, editor, admin]
+ *                 example: "user"
+ *                 description: Role of the user
  *               password:
  *                 type: string
- *                 example: 8988
- *               dob:
- *                 type: string
- *                 example: "1999-12-10"
+ *                 example: "123456"
+ *                 description: The user's password
  *               address:
  *                 type: string
- *                 example: kanke road ranchi
- *               username:
+ *                 example: "Harmu Ranchi"
+ *                 description: The user's address
+ *               profile_img:
  *                 type: string
- *                 example: suraj
+ *                 format: binary
+ *                 description: Upload user profile image
+ *               status:
+ *                 type: boolean
+ *                 example: true
+ *                 description: Status of the user (active or inactive)
  *
  *     responses:
  *       201:
- *         description: User register successfully
+ *         description: User registered successfully
  *       409:
- *         description: User already register
+ *         description: User already registered
  *       500:
  *         description: Registration failed. Please try again
  */
 
+router.post(
+  "/create",
+  upload.fields([{ name: "profile_img", maxCount: 1 }]),
+  userController.createUser
+);
+
 /**
  * @swagger
- * /auth/login:
+ *   /api/v1/users/login:
  *   post:
  *     tags: [Auth]
  *     summary: Log in a user
@@ -71,18 +90,49 @@ const userController = require("../controller/User");
  *             properties:
  *               email:
  *                 type: string
- *                 example: suraj@gmail.com
+ *                 example: ttest@gmail.com
  *               password:
  *                 type: string
- *                 example: 8988
+ *                 example: 123456
  *     responses:
  *       200:
  *         description: User logged in successfully
- *       401:
- *         description: Invalid credentials
+ *       404:
+ *         description: Invalid credentials or errors
  */
 
-router.post("/create", userController.createUser); // Create user
+router.post("/login", userController.loginUser);
+
+/**
+ * @swagger
+ * /api/v1/auth/users/{id}:
+ *   get:
+ *     summary: Retrieve user by ID
+ *     tags: [Users]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the user to retrieve
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *       404:
+ *         description: User not found
+ */
+router.get("/:id", auth, userController.getUser);
 
 /**
  * @swagger
@@ -125,28 +175,6 @@ router.post("/create", userController.createUser); // Create user
  *         description: Validation error
  */
 
-/**
- * @swagger
- * /user/{id}:
- *   delete:
- *     summary: Delete user by ID
- *     tags: [Users]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: ID of the user to delete
- *         schema:
- *           type: string
- *     responses:
- *       204:
- *         description: User deleted successfully
- *       404:
- *         description: User not found
- */
-
-router.get("/:id", userController.getUser); // Get user by ID
-router.post("/login", userController.loginUser);
 // router.put('/:id', userController.updateUser);       // Update user by ID
 // router.delete('/:id', userController.deleteUser);    // Delete user by ID
 

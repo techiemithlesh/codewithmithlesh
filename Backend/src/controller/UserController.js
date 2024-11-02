@@ -1,11 +1,26 @@
 const UserServices = require("../services/User");
 const jwt = require("jsonwebtoken");
+const uploadImage = require("./ImageUpload");
 
 exports.createUser = async (req, res) => {
   try {
-    const user = await UserServices.createUser(req.body);
+    let userData = req.body;
+    let userProfilePath = null;
+
+    if (req.files && req.files.profile_img && req.files.profile_img[0]) {
+      const folderName = "users";
+      userProfilePath = await uploadImage(req.files.profile_img[0], folderName);
+    }
+
+    const userCreate = {
+      ...userData,
+      profile_img: userProfilePath,
+    };
+
+    const user = await UserServices.createUser(userCreate);
+
     res.status(201).json({
-      message: "User Created Successfully !",
+      message: "User Created Successfully!",
       user,
     });
   } catch (error) {
