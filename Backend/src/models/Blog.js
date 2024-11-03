@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/dbconfig");
-const User = require("./User");
 
 const Blog = sequelize.define(
   "Blog",
@@ -14,7 +13,7 @@ const Blog = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: User,
+        model: "users",
         key: "id",
       },
       onDelete: "CASCADE",

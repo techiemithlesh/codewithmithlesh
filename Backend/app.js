@@ -7,6 +7,9 @@ const userRoutes = require("./src/routes/UserRoute");
 const notesRoutes = require("./src/routes/NotesRoute");
 const blogRoutes = require("./src/routes/BlogRoutes");
 const { swaggerUi, swaggerSpec } = require("./swagger");
+const User = require("./src/models/User");
+const Blog = require("./src/models/Blog");
+const Notes = require("./src/models/Notes");
 
 const app = express();
 
@@ -16,6 +19,19 @@ app.get("/", (req, res) => {
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
+
+const models = {
+  User,
+  Blog,
+  Notes,
+};
+
+// Set up associations
+Object.keys(models).forEach((modelName) => {
+  if (models[modelName].associate) {
+    models[modelName].associate(models);
+  }
+});
 
 sequelize
   .sync({ alter: true })

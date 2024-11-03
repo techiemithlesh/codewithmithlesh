@@ -51,7 +51,7 @@ const User = sequelize.define(
       validate: {
         isIn: {
           args: [["user", "editor", "admin"]],
-          msg: "User Type must be in 'user' or 'editor' and 'admin",
+          msg: "User Type must be 'user', 'editor', or 'admin'",
         },
       },
     },
@@ -60,7 +60,7 @@ const User = sequelize.define(
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "Password Can not be Empty !",
+          msg: "Password cannot be empty!",
         },
         len: {
           args: [6, 100],
@@ -87,6 +87,7 @@ const User = sequelize.define(
   }
 );
 
+// Define the association outside of the model definition
 User.associate = (models) => {
   User.hasMany(models.Notes, {
     foreignKey: "user_id",

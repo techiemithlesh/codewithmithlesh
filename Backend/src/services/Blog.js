@@ -22,7 +22,7 @@ exports.listBlogs = async (page = null, limit = null) => {
         include: [
           {
             model: User,
-            as: "users",
+            as: "user",
           },
         ],
       });
@@ -32,7 +32,7 @@ exports.listBlogs = async (page = null, limit = null) => {
         include: [
           {
             model: User,
-            as: "users",
+            as: "user",
           },
         ],
       });
