@@ -8,7 +8,7 @@ const Navbar = () => {
     <div className="container">
       <nav className="bg-gray-800">
         <div className="mx-auto max-w-7xl px-2 sm:px-2 lg:px-2">
-          <div className="relative flex h-16 items-center justify-between">
+          <div className="relative flex h-20 items-center justify-between">
             {/* Logo */}
             <div className="flex items-left">
               <Link to="/" className="text-white text-xl font-bold">
@@ -18,6 +18,9 @@ const Navbar = () => {
 
             {/* Nav Links for Desktop */}
             <div className="hidden md:flex space-x-4 items-center">
+              <Link to="/" className="text-gray-300 hover:text-white">
+                Home
+              </Link>
               <Link to="/blogs" className="text-gray-300 hover:text-white">
                 Blogs
               </Link>

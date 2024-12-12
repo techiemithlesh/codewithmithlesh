@@ -1,9 +1,10 @@
+import NoteCard from "../component/NotesCard";
 import Layout from "../layout/Layout";
 
 const Home = () => {
   return (
     <Layout tittle="CodewithMithlesh - Home">
-      <h1>Hello World !</h1>
+      <NoteCard />
     </Layout>
   );
 };
